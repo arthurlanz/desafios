@@ -1,6 +1,6 @@
 <script>
     let listaCompras = ["Arroz", "Feijão", "Leite"];
-    //Problema: Lista de Compras
+
     /*
     1. Criar uma função adicionarItem(item) que adiciona um novo item à lista.
     2. Criar uma função removerItem(item) que remove um item da lista se ele existir.
@@ -9,26 +9,31 @@
     */
 
     function adicionarItem(item) {
-        listaCompras.push(item);
-        console.log(`${item} adicionado à lista.`);
+        if (item.trim() !== "") {
+            listaCompras.push(item);
+            alert(`${item} adicionado à lista.`);
+        } else {
+            alert("Por favor, insira um item válido.");
+        }
     }
 
     function removerItem(item) {
         const index = listaCompras.indexOf(item);
         if (index !== -1) {
             listaCompras.splice(index, 1);
-            console.log(`${item} removido da lista.`);
+            alert(`${item} removido da lista.`);
         } else {
-            console.log(`${item} não encontrado na lista.`);
+            alert(`${item} não encontrado na lista.`);
         }
     }
 
     function listarItens() {
         if (listaCompras.length > 0) {
-            console.log("Lista de Compras:");
-            listaCompras.forEach(item => console.log(item));
+            let itens = "Lista de Compras:\n";
+            listaCompras.forEach(item => itens += `- ${item}\n`);
+            alert(itens);
         } else {
-            console.log("A lista está vazia.");
+            alert("A lista está vazia.");
         }
     }
 
@@ -50,12 +55,10 @@
                 break;
             case '4':
                 continuar = false;
-                console.log("Saindo...");
+                alert("Saindo...");
                 break;
             default:
-                console.log("Opção inválida.");
+                alert("Opção inválida. Tente novamente.");
         }
     }
-
-
 </script>

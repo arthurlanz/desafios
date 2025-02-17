@@ -23,44 +23,58 @@
                 break;
             case "E":
                 let adicionarId = Number(prompt(`Digite o ID do produto que você pretende adicionar ao estoque?`));
-                let quantidadeAdd = Number(prompt(`Quantos produtos você pretende adicionar`));
+                let quantidadeAdd = Number(prompt(`Quantos produtos você pretende adicionar?`));
+                if (quantidadeAdd <= 0 || isNaN(quantidadeAdd)) {
+                    alert("Quantidade inválida.");
+                    break;
+                }
                 let resultAdd = adicionarEstoque(adicionarId, quantidadeAdd);
                 alert(resultAdd);
                 break;
             case "V":
                 let venderId = Number(prompt(`Digite o ID do produto que você pretende vender`));
                 let qtdVender = Number(prompt(`Quantos produtos você pretende vender?`));
+                if (qtdVender <= 0 || isNaN(qtdVender)) {
+                    alert("Quantidade inválida.");
+                    break;
+                }
                 let resultVender = venderProduto(venderId, qtdVender);
                 alert(resultVender);
                 break;
             case "C":
-                let totalPreco = estoque.reduce((soma, produto) => soma + (produto.preco * produto.quantidade), 0);
+                let totalPreco = calcularValorTotalEstoque();
                 alert(`Valor total do estoque: ${totalPreco}`);
+                break;
+            case "0":
+                alert("Saindo...");
                 break;
             default:
                 alert("Opção inválida! Escolha uma opção válida (B, E, V, C ou 0 para sair).");
         }
     } while (coisas !== "0");
+    
     function buscarProduto(name) {
         for (let i = 0; i < estoque.length; i++) {
-            if (estoque[i].nome === name) {
-                return `Produto encontrado: ${estoque[i].nome}`;
+            if (estoque[i].nome.toLowerCase() === name.toLowerCase()) {
+                return `Produto encontrado: ${estoque[i].nome}, Preço: R$${estoque[i].preco}, Quantidade: ${estoque[i].quantidade}`;
             }
         }
         return "Produto não encontrado";
     }
-    function adicionarEstoque(p, qtd) {
+
+    function adicionarEstoque(id, qtd) {
         for (let i = 0; i < estoque.length; i++) {
-            if (estoque[i].id === p) {
+            if (estoque[i].id === id) {
                 estoque[i].quantidade += qtd;
                 return `Estoque atualizado! Novo estoque de ${estoque[i].nome}: ${estoque[i].quantidade}`;
             }
         }
         return "Produto não encontrado";
     }
-    function venderProduto(v, qtd) {
+
+    function venderProduto(id, qtd) {
         for (let i = 0; i < estoque.length; i++) {
-            if (estoque[i].id === v) {
+            if (estoque[i].id === id) {
                 if (qtd <= estoque[i].quantidade) {
                     estoque[i].quantidade -= qtd;
                     return `Venda realizada! Novo estoque de ${estoque[i].nome}: ${estoque[i].quantidade}`;
@@ -70,5 +84,9 @@
             }
         }
         return "Produto não encontrado";
+    }
+
+    function calcularValorTotalEstoque() {
+        return estoque.reduce((soma, produto) => soma + (produto.preco * produto.quantidade), 0).toFixed(2);
     }
 </script>
